@@ -16,7 +16,7 @@ from langchain_mcp_adapters.client import MultiServerMCPClient
 async def load_mcp_tools() -> tuple[list, object]:
     """Load LangChain-compatible tools from the PubMed MCP server.
 
-    Creates a MultiServerMCPClient configured to launch mcp-simple-pubmed as a
+    Creates a MultiServerMCPClient configured to launch mcp-simple-arxiv as a
     stdio subprocess, then retrieves the tools it exposes. The tools are
     returned as standard LangChain BaseTool instances and are passed directly
     to build_agent() — the agent graph is unaware of the MCP layer.
@@ -32,7 +32,9 @@ async def load_mcp_tools() -> tuple[list, object]:
             client — the MultiServerMCPClient instance (must stay alive)
     """
     client = MultiServerMCPClient(
-        {"arxiv": {"command": "python", "args": ["-m", "mcp_simple_arxiv"], "transport": "stdio"}}
+        {
+            "arxiv": {"command": "python", "args": ["-m", "mcp_simple_arxiv"], "transport": "stdio"},
+            "fetch": {"command": "python", "args": ["-m", "mcp_server_fetch"], "transport": "stdio"}}
     )
     tools = await client.get_tools()
     return (tools, client)
