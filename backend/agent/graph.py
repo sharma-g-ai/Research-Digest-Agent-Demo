@@ -13,7 +13,7 @@ from config import get_llm
 from agent.prompts import SYSTEM_PROMPT
 
 
-def build_agent(tools: list[BaseTool]):
+def build_agent(tools: list[BaseTool], prompt: str = SYSTEM_PROMPT):
     """Build and return a compiled LangGraph ReAct agent.
 
     Accepts a list of LangChain BaseTool instances and returns a compiled
@@ -32,6 +32,6 @@ def build_agent(tools: list[BaseTool]):
     """
     llm = get_llm()
 
-    agent = create_react_agent(llm, tools, prompt=SYSTEM_PROMPT)
+    agent = create_react_agent(llm, tools, prompt=prompt)
 
     return agent

@@ -1,3 +1,5 @@
+import asyncio
+import contextlib
 import json
 import os
 from collections.abc import AsyncGenerator
@@ -9,11 +11,25 @@ from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 
 from agent.graph import build_agent
-from agent.pubmed_tools import fetch_article, search_pubmed
+from agent.mcp_tools import load_mcp_tools
+from agent.prompts import ARXIV_SYSTEM_PROMPT
 
 load_dotenv()
 
-app = FastAPI(title="Research Digest Agent")
+# Module-level references populated during lifespan startup.
+_mcp_client = None
+agent = None
+
+
+@contextlib.asynccontextmanager
+async def lifespan(app: FastAPI):
+    global agent, _mcp_client
+    tools, _mcp_client = await load_mcp_tools()
+    agent = build_agent(tools, prompt=ARXIV_SYSTEM_PROMPT)
+    yield
+
+
+app = FastAPI(title="Research Digest Agent", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -27,12 +43,12 @@ class ResearchRequest(BaseModel):
     question: str
 
 
-# Pass 1: tools loaded from pubmed_tools.py
-# Pass 2: replace the two lines above with:
-#   tools, _mcp_client = asyncio.run(load_mcp_tools())
-#   agent = build_agent(tools)
-tools = [search_pubmed, fetch_article]
-agent = build_agent(tools)
+# Active: arXiv via MCP (Pass 2)
+# To roll back to direct arXiv tools (Pass 1):
+#   from agent.arxiv_tools import search_arxiv, fetch_paper
+#   remove the lifespan above and replace with module-level:
+#   tools = [search_arxiv, fetch_paper]
+#   agent = build_agent(tools, prompt=ARXIV_SYSTEM_PROMPT)
 
 
 async def stream_agent(question: str) -> AsyncGenerator[str, None]:

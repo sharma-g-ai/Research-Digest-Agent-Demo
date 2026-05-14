@@ -32,12 +32,7 @@ async def load_mcp_tools() -> tuple[list, object]:
             client — the MultiServerMCPClient instance (must stay alive)
     """
     client = MultiServerMCPClient(
-        {
-            "pubmed": {
-                "transport": "stdio",
-                "command": "mcp-simple-pubmed",
-            }
-        }
+        {"arxiv": {"command": "python", "args": ["-m", "mcp_simple_arxiv"], "transport": "stdio"}}
     )
     tools = await client.get_tools()
-    return tools, client
+    return (tools, client)
