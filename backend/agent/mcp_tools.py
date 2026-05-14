@@ -34,7 +34,8 @@ async def load_mcp_tools() -> tuple[list, object]:
     client = MultiServerMCPClient(
         {
             "arxiv": {"command": "python", "args": ["-m", "mcp_simple_arxiv"], "transport": "stdio"},
-            "fetch": {"command": "python", "args": ["-m", "mcp_server_fetch"], "transport": "stdio"}}
+            "fetch": {"command": "python", "args": ["-m", "mcp_server_fetch"], "transport": "stdio"}
+        }
     )
     tools = await client.get_tools()
     return (tools, client)
