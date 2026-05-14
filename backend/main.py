@@ -9,7 +9,8 @@ from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 
 from agent.graph import build_agent
-from agent.pubmed_tools import fetch_article, search_pubmed
+from agent.arxiv_tools import fetch_paper, search_arxiv
+from agent.prompts import ARXIV_SYSTEM_PROMPT
 
 load_dotenv()
 
@@ -27,12 +28,15 @@ class ResearchRequest(BaseModel):
     question: str
 
 
-# Pass 1: tools loaded from pubmed_tools.py
-# Pass 2: replace the two lines above with:
+# Active: arXiv (Pass 1)
+# To roll back to PubMed:
+#   from agent.pubmed_tools import search_pubmed, fetch_article
+#   tools = [search_pubmed, fetch_article]
+# Pass 2 MCP: replace the two lines below with:
 #   tools, _mcp_client = asyncio.run(load_mcp_tools())
 #   agent = build_agent(tools)
-tools = [search_pubmed, fetch_article]
-agent = build_agent(tools)
+tools = [search_arxiv, fetch_paper]
+agent = build_agent(tools, prompt=ARXIV_SYSTEM_PROMPT)
 
 
 async def stream_agent(question: str) -> AsyncGenerator[str, None]:
