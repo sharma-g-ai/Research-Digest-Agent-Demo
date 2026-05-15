@@ -19,7 +19,7 @@ A full-stack research assistant that takes a scientific question, autonomously s
    ```
    cp .env.example .env
    ```
-3. Edit `.env` with your `LITELLM_BASE_URL`, `LITELLM_API_KEY`, and `LLM_MODEL`
+3. Edit `.env` with your `LITELLM_PROXY_URL`, `LITELLM_API_KEY`, and `LLM_MODEL`
 
 ---
 
