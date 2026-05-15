@@ -1,6 +1,6 @@
 # Research Digest Agent
 
-A full-stack research assistant that takes a scientific question, autonomously searches PubMed, and streams a structured digest back to the browser in real time.
+A full-stack research assistant that takes a scientific question, autonomously searches Arxiv, and streams a structured digest back to the browser in real time.
 
 ---
 
