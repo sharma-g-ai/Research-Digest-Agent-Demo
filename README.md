@@ -49,4 +49,4 @@ The UI will be available at `http://localhost:5173`. The Vite dev server proxies
 
 ## Pass 2 — MCP integration
 
-Pass 2 replaces the direct PubMed HTTP integration with the `mcp-pubmed` MCP server. Only `backend/main.py` changes. See the comment block in `backend/main.py` and the full loader implementation in `backend/agent/mcp_tools.py` for instructions.
+Check out the `phase2_mcp` branch for the latest code integrating the MCP agent framework. The core logic is now encapsulated in `agent.py`, which defines a custom `ResearchDigestAgent` class that inherits from `MCPAgent`. The FastAPI backend serves as an interface to the agent, while the frontend remains unchanged.
