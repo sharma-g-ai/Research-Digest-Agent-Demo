@@ -1,6 +1,6 @@
 # Research Digest Agent
 
-A full-stack research assistant that takes a scientific question, autonomously searches PubMed, and streams a structured digest back to the browser in real time.
+A full-stack research assistant that takes a scientific question, autonomously searches Arxiv, and streams a structured digest back to the browser in real time.
 
 ---
 
@@ -19,7 +19,7 @@ A full-stack research assistant that takes a scientific question, autonomously s
    ```
    cp .env.example .env
    ```
-3. Edit `.env` with your `LITELLM_BASE_URL`, `LITELLM_API_KEY`, and `LLM_MODEL`
+3. Edit `.env` with your `LITELLM_PROXY_URL`, `LITELLM_API_KEY`, and `LLM_MODEL`
 
 ---
 
@@ -46,7 +46,3 @@ npm run dev
 The UI will be available at `http://localhost:5173`. The Vite dev server proxies `/api` requests to the backend automatically.
 
 ---
-
-## Pass 2 — MCP integration
-
-Pass 2 replaces the direct PubMed HTTP integration with the `mcp-pubmed` MCP server. Only `backend/main.py` changes. See the comment block in `backend/main.py` and the full loader implementation in `backend/agent/mcp_tools.py` for instructions.
