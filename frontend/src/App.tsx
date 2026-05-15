@@ -23,7 +23,7 @@ export default function App(): JSX.Element {
       <header style={{ marginBottom: "32px" }}>
         <h1 style={{ margin: "0 0 8px" }}>Research Digest Agent</h1>
         <p style={{ margin: 0, color: "#6c757d" }}>
-          Ask a scientific question. The agent searches PubMed and synthesises a structured digest in real time.
+          Ask a scientific question. The agent searches Arxiv and synthesises a structured digest in real time.
         </p>
       </header>
 
